@@ -1,36 +1,38 @@
 use super::raw::types::*;
 
-pub enum ImGuiWindowFlags {
-	None = 0,
-	NoTitleBar = ImGuiWindowFlags_::NoTitleBar as isize,
-	NoResize = ImGuiWindowFlags_::NoResize as isize,
-	NoMove = ImGuiWindowFlags_::NoMove as isize,
-	NoScrollbar = ImGuiWindowFlags_::NoScrollbar as isize,
-	NoScrollWithMouse = ImGuiWindowFlags_::NoScrollWithMouse as isize,
-	NoCollapse = ImGuiWindowFlags_::NoCollapse as isize,
-	AlwaysAutoResize = ImGuiWindowFlags_::AlwaysAutoResize as isize,
-	ShowBorders = ImGuiWindowFlags_::ShowBorders as isize,
-	NoSavedSettings = ImGuiWindowFlags_::NoSavedSettings as isize,
-	NoInputs = ImGuiWindowFlags_::NoInputs as isize,
-	MenuBar = ImGuiWindowFlags_::MenuBar as isize,
-	HorizontalScrollbar = ImGuiWindowFlags_::HorizontalScrollbar as isize,
-	NoFocusOnAppearing = ImGuiWindowFlags_::NoFocusOnAppearing as isize,
-	NoBringToFrontOnFocus = ImGuiWindowFlags_::NoBringToFrontOnFocus as isize,
-	AlwaysVerticalScrollbar = ImGuiWindowFlags_::AlwaysVerticalScrollbar as isize,
-	AlwaysHorizontalScrollbar = ImGuiWindowFlags_::AlwaysHorizontalScrollbar as isize,
-	AlwaysUseWindowPadding = ImGuiWindowFlags_::AlwaysUseWindowPadding as isize,
-	ChildWindow = ImGuiWindowFlags_::ChildWindow as isize,
-	ChildWindowAutoFitX = ImGuiWindowFlags_::ChildWindowAutoFitX as isize,
-	ChildWindowAutoFitY = ImGuiWindowFlags_::ChildWindowAutoFitY as isize,
-	ComboBox = ImGuiWindowFlags_::ComboBox as isize,
-	Tooltip = ImGuiWindowFlags_::Tooltip as isize,
-	Popup = ImGuiWindowFlags_::Popup as isize,
-	Modal = ImGuiWindowFlags_::Modal as isize,
-	ChildMenu = ImGuiWindowFlags_::ChildMenu as isize,
+bitflags! {
+	pub flags ImGuiWindowFlags: ImGuiWindowFlags_::Type {
+		const ImGuiWindowFlags_None = 0,
+		const ImGuiWindowFlags_NoTitleBar = ImGuiWindowFlags_::NoTitleBar,
+		const ImGuiWindowFlags_NoResize = ImGuiWindowFlags_::NoResize,
+		const ImGuiWindowFlags_NoMove = ImGuiWindowFlags_::NoMove,
+		const ImGuiWindowFlags_NoScrollbar = ImGuiWindowFlags_::NoScrollbar,
+		const ImGuiWindowFlags_NoScrollWithMouse = ImGuiWindowFlags_::NoScrollWithMouse,
+		const ImGuiWindowFlags_NoCollapse = ImGuiWindowFlags_::NoCollapse,
+		const ImGuiWindowFlags_AlwaysAutoResize = ImGuiWindowFlags_::AlwaysAutoResize,
+		const ImGuiWindowFlags_ShowBorders = ImGuiWindowFlags_::ShowBorders,
+		const ImGuiWindowFlags_NoSavedSettings = ImGuiWindowFlags_::NoSavedSettings,
+		const ImGuiWindowFlags_NoInputs = ImGuiWindowFlags_::NoInputs,
+		const ImGuiWindowFlags_MenuBar = ImGuiWindowFlags_::MenuBar,
+		const ImGuiWindowFlags_HorizontalScrollbar = ImGuiWindowFlags_::HorizontalScrollbar,
+		const ImGuiWindowFlags_NoFocusOnAppearing = ImGuiWindowFlags_::NoFocusOnAppearing,
+		const ImGuiWindowFlags_NoBringToFrontOnFocus = ImGuiWindowFlags_::NoBringToFrontOnFocus,
+		const ImGuiWindowFlags_AlwaysVerticalScrollbar = ImGuiWindowFlags_::AlwaysVerticalScrollbar,
+		const ImGuiWindowFlags_AlwaysHorizontalScrollbar = ImGuiWindowFlags_::AlwaysHorizontalScrollbar,
+		const ImGuiWindowFlags_AlwaysUseWindowPadding = ImGuiWindowFlags_::AlwaysUseWindowPadding,
+		const ImGuiWindowFlags_ChildWindow = ImGuiWindowFlags_::ChildWindow,
+		const ImGuiWindowFlags_ChildWindowAutoFitX = ImGuiWindowFlags_::ChildWindowAutoFitX,
+		const ImGuiWindowFlags_ChildWindowAutoFitY = ImGuiWindowFlags_::ChildWindowAutoFitY,
+		const ImGuiWindowFlags_ComboBox = ImGuiWindowFlags_::ComboBox,
+		const ImGuiWindowFlags_Tooltip = ImGuiWindowFlags_::Tooltip,
+		const ImGuiWindowFlags_Popup = ImGuiWindowFlags_::Popup,
+		const ImGuiWindowFlags_Modal = ImGuiWindowFlags_::Modal,
+		const ImGuiWindowFlags_ChildMenu = ImGuiWindowFlags_::ChildMenu,
+	}
 }
 
 impl ImGuiWindowFlags {
-	pub fn as_c(self) -> ImGuiWindowFlags_::Type { self as ImGuiWindowFlags_::Type }
+	pub fn as_c(self) -> ImGuiWindowFlags_::Type { self.bits }
 }
 
 pub enum ImGuiSetCond {
@@ -124,38 +126,53 @@ impl ImGuiColorEditMode {
 	pub fn as_c(self) -> ImGuiColorEditMode_::Type { self as ImGuiColorEditMode_::Type }
 }
 
-pub enum ImGuiInputTextFlags {
-	CharsDecimal = ImGuiInputTextFlags_::CharsDecimal as isize,
-	CharsHexadecimal = ImGuiInputTextFlags_::CharsHexadecimal as isize,
-	CharsUppercase = ImGuiInputTextFlags_::CharsUppercase as isize,
-	CharsNoBlank = ImGuiInputTextFlags_::CharsNoBlank as isize,
-	AutoSelectAll = ImGuiInputTextFlags_::AutoSelectAll as isize,
-	EnterReturnsTrue = ImGuiInputTextFlags_::EnterReturnsTrue as isize,
-	CallbackCompletion = ImGuiInputTextFlags_::CallbackCompletion as isize,
-	CallbackHistory = ImGuiInputTextFlags_::CallbackHistory as isize,
-	CallbackAlways = ImGuiInputTextFlags_::CallbackAlways as isize,
-	CallbackCharFilter = ImGuiInputTextFlags_::CallbackCharFilter as isize,
-	AllowTabInput = ImGuiInputTextFlags_::AllowTabInput as isize,
-	CtrlEnterForNewLine = ImGuiInputTextFlags_::CtrlEnterForNewLine as isize,
-	NoHorizontalScroll = ImGuiInputTextFlags_::NoHorizontalScroll as isize,
-	AlwaysInsertMode = ImGuiInputTextFlags_::AlwaysInsertMode as isize,
-	ReadOnly = ImGuiInputTextFlags_::ReadOnly as isize,
-	Password = ImGuiInputTextFlags_::Password as isize,
-	Multiline = ImGuiInputTextFlags_::Multiline as isize,
+// bitflags! {
+//     flags Flags: u32 {
+//         const FLAG_A       = 0b00000001,
+//         const FLAG_B       = 0b00000010,
+//         const FLAG_C       = 0b00000100,
+//         const FLAG_ABC     = FLAG_A.bits
+//                            | FLAG_B.bits
+//                            | FLAG_C.bits,
+//     }
+// }
+
+bitflags! {
+	pub flags ImGuiInputTextFlags: ImGuiInputTextFlags_::Type {
+		const ImGuiInputTextFlags_CharsDecimal = ImGuiInputTextFlags_::CharsDecimal,
+		const ImGuiInputTextFlags_CharsHexadecimal = ImGuiInputTextFlags_::CharsHexadecimal,
+		const ImGuiInputTextFlags_CharsUppercase = ImGuiInputTextFlags_::CharsUppercase,
+		const ImGuiInputTextFlags_CharsNoBlank = ImGuiInputTextFlags_::CharsNoBlank,
+		const ImGuiInputTextFlags_AutoSelectAll = ImGuiInputTextFlags_::AutoSelectAll,
+		const ImGuiInputTextFlags_EnterReturnsTrue = ImGuiInputTextFlags_::EnterReturnsTrue,
+		const ImGuiInputTextFlags_CallbackCompletion = ImGuiInputTextFlags_::CallbackCompletion,
+		const ImGuiInputTextFlags_CallbackHistory = ImGuiInputTextFlags_::CallbackHistory,
+		const ImGuiInputTextFlags_CallbackAlways = ImGuiInputTextFlags_::CallbackAlways,
+		const ImGuiInputTextFlags_CallbackCharFilter = ImGuiInputTextFlags_::CallbackCharFilter,
+		const ImGuiInputTextFlags_AllowTabInput = ImGuiInputTextFlags_::AllowTabInput,
+		const ImGuiInputTextFlags_CtrlEnterForNewLine = ImGuiInputTextFlags_::CtrlEnterForNewLine,
+		const ImGuiInputTextFlags_NoHorizontalScroll = ImGuiInputTextFlags_::NoHorizontalScroll,
+		const ImGuiInputTextFlags_AlwaysInsertMode = ImGuiInputTextFlags_::AlwaysInsertMode,
+		const ImGuiInputTextFlags_ReadOnly = ImGuiInputTextFlags_::ReadOnly,
+		const ImGuiInputTextFlags_Password = ImGuiInputTextFlags_::Password,
+		const ImGuiInputTextFlags_Multiline = ImGuiInputTextFlags_::Multiline,	
+	}
 }
 
 impl ImGuiInputTextFlags {
-	pub fn as_c(self) -> ImGuiInputTextFlags_::Type { self as ImGuiInputTextFlags_::Type }
+	pub fn as_c(self) -> ImGuiInputTextFlags_::Type { self.bits }
 }
 
-pub enum ImGuiSelectableFlags {
-	DontClosePopups = ImGuiSelectableFlags_::DontClosePopups as isize,
-	SpanAllColumns = ImGuiSelectableFlags_::SpanAllColumns as isize,
-	AllowDoubleClick = ImGuiSelectableFlags_::AllowDoubleClick as isize,
+bitflags! {
+	pub flags ImGuiSelectableFlags: ImGuiSelectableFlags_::Type {
+		const DontClosePopups = ImGuiSelectableFlags_::DontClosePopups,
+		const SpanAllColumns = ImGuiSelectableFlags_::SpanAllColumns,
+		const AllowDoubleClick = ImGuiSelectableFlags_::AllowDoubleClick,
+	}
 }
 
 impl ImGuiSelectableFlags {
-	pub fn as_c(self) -> ImGuiSelectableFlags_::Type { self as ImGuiSelectableFlags_::Type }
+	pub fn as_c(self) -> ImGuiSelectableFlags_::Type { self.bits }
 }
 
 pub enum ImGuiKey {

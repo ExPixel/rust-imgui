@@ -1,4 +1,5 @@
 extern crate libc;
+#[macro_use] extern crate bitflags;
 
 // #[macro_use] 
 // extern crate va_list;

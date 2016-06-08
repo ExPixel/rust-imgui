@@ -6,7 +6,7 @@ use rust_imgui as imgui;
 
 pub fn imgui_example_draw() {
 	let mut opened = true;
-	imgui::begin(imstr!("Not A Window"), &mut opened, imgui::ImGuiWindowFlags::None);
+	imgui::begin(imstr!("Not A Window"), &mut opened, imgui::ImGuiWindowFlags_None);
 	imgui::text(imstr!("Hello World"));
 	imgui::text(imstr!("Application average {:.3} ms/frame ({:.1} FPS)",
 		1000.0 / imgui::get_io().framerate,

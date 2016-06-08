@@ -9,3 +9,4 @@ notifications:
 script:
     - cargo build --verbose
     - cargo test --verbose
+    - cargo build --example imgui_demo # make sure the example can be compiled.
