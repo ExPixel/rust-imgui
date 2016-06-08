@@ -1,4 +1,4 @@
-# rust-imgui
+# rust-imgui [![Build Status](https://travis-ci.org/ExPixel/rust-imgui.svg?branch=master)](https://travis-ci.org/ExPixel/rust-imgui)
 
 Thin Rust wrapper for ImGui
 
