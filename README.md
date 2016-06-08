@@ -20,4 +20,4 @@ pub fn imgui_example_draw() {
 }
 ```
 
-If you're using opengl, feel free to just copy the code in the example in `examples/imgui_demo.rs`.
+If you're using opengl, feel free to just copy the code in the example in `examples/imgui_demo.rs`. 
