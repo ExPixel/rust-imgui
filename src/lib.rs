@@ -28,12 +28,6 @@ pub fn vec4(x: f32, y: f32, z: f32, w: f32) -> ImVec4 {
 	ImVec4::new(x, y, z, w)
 }
 
-macro_rules! c_string {
-	($e:tt) => ({
-		concat!($e, "\0")
-	})
-}
-
 #[cfg(test)]
 mod tests {
 	use super::imgui::api as imgui;
