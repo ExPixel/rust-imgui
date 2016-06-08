@@ -4,6 +4,9 @@ Thin Rust wrapper for ImGui
 
 Use `cargo run --example imgui_demo` to run the demo.  
 
+This library can be used just like imgui for the most part. Just change pascal case to camel case.  
+e.g. `ImGui::GetVersion()` -> `imgui::get_version()`
+
 Example Usage _(not including setup)_:  
 ```rust
 #[macro_use] extern crate rust_imgui;
