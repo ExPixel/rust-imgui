@@ -1,10 +1,10 @@
 extern crate libc;
-#[macro_use] extern crate bitflags;
+#[macro_use] 
+extern crate bitflags;
 
-// #[macro_use] 
-// extern crate va_list;
+#[macro_use]
+pub mod imgui;
 
-#[macro_use] pub mod imgui;
 pub use imgui::structs::*;
 pub use imgui::enums::*;
 pub use imgui::api::*;
