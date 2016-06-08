@@ -73,11 +73,6 @@ pub unsafe fn imgui_render_draw_lists(state: &DemoGLState, draw_data: &mut imgui
 			.expect("Indexing CMD List in imgui_render_draw_lists");
 		let mut idx_buffer_offset: *const imgui::ImDrawIdx = mem::transmute(0usize);
 
-		// println!("{} • {} = {}",
-		// 	cmd_list.vtx_buffer.size,
-		// 	mem::size_of::<imgui::ImDrawVert>() as i32,
-		// 	(cmd_list.vtx_buffer.size as i32).wrapping_mul(mem::size_of::<imgui::ImDrawVert>() as i32));
-
 		gl::BindBuffer(gl::ARRAY_BUFFER, state.vbo_handle);
 		gl::BufferData(
 			gl::ARRAY_BUFFER, 
@@ -105,9 +100,6 @@ pub unsafe fn imgui_render_draw_lists(state: &DemoGLState, draw_data: &mut imgui
 				let _s = if mem::size_of::<imgui::ImDrawIdx>() == 2 {gl::UNSIGNED_SHORT} else {gl::UNSIGNED_INT};
 				gl::DrawElements(gl::TRIANGLES, pcmd.elem_count as i32, _s, mem::transmute(idx_buffer_offset));
 			}
-			// println!("idx_buffer_offset:{} + pcmd.elem_count:{} = idx_buffer_offset:{}",
-			// 	mem::transmute::<_, usize>(idx_buffer_offset), pcmd.elem_count,
-			// 	mem::transmute::<_, usize>(idx_buffer_offset.offset(pcmd.elem_count as isize)));
 			idx_buffer_offset = idx_buffer_offset.offset(pcmd.elem_count as isize);
 		}
 	}
@@ -425,7 +417,6 @@ pub fn imgui_check_event(ui_state: &mut DemoGLState, event: &glutin::Event) {
 		Event::MouseWheel(MouseScrollDelta::LineDelta(_, y), TouchPhase::Moved) => ui_state.mouse_wheel = y,
 		Event::MouseWheel(MouseScrollDelta::PixelDelta(_, y), TouchPhase::Moved) => ui_state.mouse_wheel = y,
 		Event::ReceivedCharacter(c) => {
-			println!("received: {} -> {}", c, c as u16);
 			io.add_input_character(c as u16);
 		},
 		_ => {}
