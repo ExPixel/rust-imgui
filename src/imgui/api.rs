@@ -11,6 +11,7 @@ use libc::{
 	c_char,
 	c_void
 };
+use std::ptr;
 
 pub type ProducerFunction<T> = Option<unsafe extern "C" fn(data: *mut c_void, idx: c_int) -> T>;
 pub type ListBoxProducerFunction<T> = Option<unsafe extern "C" fn(data: *mut c_void, idx: c_int, out_text: *mut *const c_char) -> T>;
@@ -470,9 +471,15 @@ pub fn separator() {
 	}
 }
 
-pub fn same_line(pos_x: f32, spacing_w: f32) {
+pub fn same_line() {
 	unsafe {
-		igSameLine(pos_x , spacing_w )
+		igSameLine(0.0, -1.0);
+	}
+}
+
+pub fn same_line_ex(pos_x: f32, spacing_w: f32) {
+	unsafe {
+		igSameLine(pos_x, spacing_w)
 	}
 }
 
@@ -938,13 +945,26 @@ pub fn set_next_tree_node_opened(opened: bool, cond: ImGuiSetCond) {
 	unsafe { igSetNextTreeNodeOpened(transmute(opened), cond.as_c()) }
 }
 
-pub fn selectable<'a>(label: ImStr<'a>, selected: bool, flags: ImGuiSelectableFlags, size: ImVec2) -> bool {
+pub fn selectable<'a>(label: ImStr<'a>) -> bool {
+	unsafe {
+		igSelectable(label.as_ptr(), 0, 0, ImVec2::zero()) != 0
+	}
+}
+
+
+pub fn selectable_fl<'a>(label: ImStr<'a>, flags: ImGuiSelectableFlags) -> bool {
+	unsafe {
+		igSelectable(label.as_ptr(), 0, flags.as_c(), ImVec2::zero()) != 0
+	}
+}
+
+pub fn selectable_ex<'a>(label: ImStr<'a>, selected: bool, flags: ImGuiSelectableFlags, size: ImVec2) -> bool {
 	unsafe {
 		igSelectable(label.as_ptr(), transmute(selected), flags.as_c(), size) != 0
 	}
 }
 
-pub fn selectable_ex<'a>(label: ImStr<'a>, p_selected: &mut bool, flags: ImGuiSelectableFlags, size: ImVec2) -> bool {
+pub fn selectable_ex2<'a>(label: ImStr<'a>, p_selected: &mut bool, flags: ImGuiSelectableFlags, size: ImVec2) -> bool {
 	unsafe {
 		igSelectableEx(label.as_ptr(), transmute(p_selected), flags.as_c(), size) != 0
 	}
@@ -1040,7 +1060,19 @@ pub fn end_menu() {
 	unsafe { igEndMenu() }
 }
 
-pub fn menu_item<'a>(label: ImStr<'a>, shortcut: ImStr<'a>, selected: bool, enabled: bool) -> bool {
+pub fn menu_item<'a>(label: ImStr<'a>) -> bool {
+	unsafe {
+		igMenuItem(label.as_ptr(), ptr::null(), transmute(false), transmute(true)) != 0
+	}
+}
+
+pub fn menu_item_ex<'a>(label: ImStr<'a>, selected: bool, enabled: bool) -> bool {
+	unsafe {
+		igMenuItem(label.as_ptr(), ptr::null(), transmute(selected), transmute(enabled)) != 0
+	}
+}
+
+pub fn menu_item_shortcut<'a>(label: ImStr<'a>, shortcut: ImStr<'a>, selected: bool, enabled: bool) -> bool {
 	unsafe {
 		igMenuItem(label.as_ptr(), shortcut.as_ptr(), transmute(selected), transmute(enabled)) != 0
 	}
