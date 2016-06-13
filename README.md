@@ -14,7 +14,7 @@ use rust_imgui as imgui;
 
 pub fn imgui_example_draw() {
 	let mut opened = true;
-	imgui::begin(imstr!("Example Window"), &mut opened, imgui::ImGuiWindowFlags::None);
+	imgui::begin(imstr!("Example Window"), &mut opened, imgui::ImGuiWindowFlags_None);
 	imgui::text(imstr!("Hello World"));
 	imgui::end();
 }
