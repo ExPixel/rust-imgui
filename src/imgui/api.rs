@@ -371,7 +371,13 @@ pub fn push_style_var_vec(idx: ImGuiStyleVar, val: ImVec2) {
 
 pub fn pop_style_var(count: i32) {
 	unsafe {
-		igPopStyleVar(count )
+		igPopStyleVar(count)
+	}
+}
+
+pub fn pop_style_color(count: i32) {
+	unsafe {
+		igPopStyleColor(count)
 	}
 }
 
@@ -680,7 +686,7 @@ pub fn text<'a>(fmt: ImStr<'a>) {
 	unsafe { igText(fmt.as_ptr()) }
 }
 
-pub fn get_text_colored<'a>(col: ImVec4, fmt: ImStr<'a>) {
+pub fn text_colored<'a>(col: ImVec4, fmt: ImStr<'a>) {
 	unsafe { igTextColored(col, fmt.as_ptr()) }
 }
 

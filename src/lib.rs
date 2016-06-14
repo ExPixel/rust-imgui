@@ -8,6 +8,8 @@ pub mod imgui;
 pub use imgui::structs::*;
 pub use imgui::enums::*;
 pub use imgui::api::*;
+pub use imgui::imstr;
+pub use imgui::imstrarray;
 
 pub use imgui::raw::types::{
 	ImU32,
