@@ -53,7 +53,7 @@ impl<'a> ImStr<'a> {
 	pub fn end(&self) -> *const c_char {
 		unsafe {
 			let len = self.bytes.len();
-			self.as_ptr().offset(len as isize)
+			self.as_ptr().offset(len as isize - 1)
 		}
 	}
 }
