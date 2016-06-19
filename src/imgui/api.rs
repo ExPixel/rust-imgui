@@ -16,6 +16,67 @@ use std::ptr;
 pub type ProducerFunction<T> = Option<unsafe extern "C" fn(data: *mut c_void, idx: c_int) -> T>;
 pub type ListBoxProducerFunction<T> = Option<unsafe extern "C" fn(data: *mut c_void, idx: c_int, out_text: *mut *const c_char) -> T>;
 
+pub struct ImguiTextInputBuffer {
+	length_known: bool,
+	text_length: usize,
+	buffer: Vec<u8>,
+}
+
+impl ImguiTextInputBuffer {
+	pub fn new(capacity: usize) -> ImguiTextInputBuffer {
+		ImguiTextInputBuffer {
+			length_known: false,
+			text_length: 0,
+			buffer: vec![0; capacity]
+		}
+	}
+
+	pub fn capacity(&self) -> usize {
+		self.buffer.len()
+	}
+
+	pub fn as_slice(&mut self) -> &mut [i8] {
+		self.length_known = false; // If we lose control of the buffer for a time we don't know the length anymore.
+		unsafe {
+			transmute(&mut self.buffer[0..])
+		}
+	}
+
+	pub fn as_str<'a>(&'a mut self) -> &'a str {
+		use std::str::from_utf8_unchecked;
+		unsafe {
+			let len = self.text_len();
+			from_utf8_unchecked(&self.buffer[0..len])
+		}
+	}
+
+	fn __calc_text_len(&mut self) {
+		let mut len = 0;
+		for idx in 0..self.buffer.len() {
+			let c = self.buffer[idx];
+			if c == 0 { break }
+			else { len += 1; }
+		}
+		self.text_length = len;
+		self.length_known = true;
+	}
+
+	pub fn text_len(&mut self) -> usize {
+		if !self.length_known {
+			self.__calc_text_len();
+		}
+		return self.text_length;
+	}
+
+	pub fn clear(&mut self) {
+		let len = self.text_len();
+		for idx in 0..len {
+			self.buffer[idx] = 0;
+		}
+		self.length_known = false;
+	}
+}
+
 unsafe fn as_ref<T>(ptr: *mut T) -> Option<&'static mut T> {
 	Some(transmute(ptr))
 }
@@ -728,6 +789,12 @@ pub fn button<'a>(label: ImStr<'a>, size: ImVec2) -> bool {
 	}
 }
 
+pub fn button_def<'a>(label: ImStr<'a>) -> bool {
+	unsafe {
+		igButton(label.as_ptr(), ImVec2::zero()) != 0
+	}
+}
+
 pub fn small_button<'a>(label: ImStr<'a>) -> bool {
 	unsafe {
 		igSmallButton(label.as_ptr()) != 0
@@ -957,6 +1024,11 @@ pub fn selectable<'a>(label: ImStr<'a>) -> bool {
 	}
 }
 
+pub fn selectable_sel<'a>(label: ImStr<'a>, selected: bool) -> bool {
+	unsafe {
+		igSelectable(label.as_ptr(), transmute(selected), 0, ImVec2::zero()) != 0
+	}
+}
 
 pub fn selectable_fl<'a>(label: ImStr<'a>, flags: ImGuiSelectableFlags) -> bool {
 	unsafe {
@@ -1578,9 +1650,21 @@ impl ImDrawList {
 		}
 	}
 
+	pub fn add_rect_simple(&mut self, a: ImVec2, b: ImVec2, col: u32) {
+		unsafe {
+			ImDrawList_AddRect(self, a, b, col, 0.0, 0, 1.0)
+		}
+	}
+
 	pub fn add_rect_filled(&mut self, a: ImVec2, b: ImVec2, col: u32, rounding: f32, rounding_corners: i32) {
 		unsafe {
 			ImDrawList_AddRectFilled(self, a, b, col, rounding, rounding_corners)
+		}
+	}
+
+	pub fn add_rect_filled_simple(&mut self, a: ImVec2, b: ImVec2, col: u32) {
+		unsafe {
+			ImDrawList_AddRectFilled(self, a, b, col, 0.0, 0)
 		}
 	}
 
