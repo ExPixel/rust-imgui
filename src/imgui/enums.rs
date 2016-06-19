@@ -139,6 +139,7 @@ impl ImGuiColorEditMode {
 
 bitflags! {
 	pub flags ImGuiInputTextFlags: ImGuiInputTextFlags_::Type {
+		const ImGuiInputTextFlags_None = 0,
 		const ImGuiInputTextFlags_CharsDecimal = ImGuiInputTextFlags_::CharsDecimal,
 		const ImGuiInputTextFlags_CharsHexadecimal = ImGuiInputTextFlags_::CharsHexadecimal,
 		const ImGuiInputTextFlags_CharsUppercase = ImGuiInputTextFlags_::CharsUppercase,
