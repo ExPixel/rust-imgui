@@ -90,6 +90,7 @@ pub enum ImGuiCol {
 	PlotHistogramHovered = ImGuiCol_::PlotHistogramHovered as isize,
 	TextSelectedBg = ImGuiCol_::TextSelectedBg as isize,
 	ModalWindowDarkening = ImGuiCol_::ModalWindowDarkening as isize,
+	Count = ImGuiCol_::COUNT as isize,
 }
 
 impl ImGuiCol {
