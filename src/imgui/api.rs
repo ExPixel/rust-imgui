@@ -658,6 +658,12 @@ pub fn columns<'a>(count: i32, id: ImStr<'a>, border: bool) {
 	}
 }
 
+pub fn columns_noid<'a>(count: i32, border: bool) {
+	unsafe {
+		igColumns(count, ptr::null(), transmute(border))
+	}
+}
+
 pub fn next_column() {
 	unsafe {
 		igNextColumn()
@@ -744,7 +750,14 @@ pub fn get_id_ptr(ptr_id: &c_void) -> ImGuiID {
 }
 
 pub fn text<'a>(fmt: ImStr<'a>) {
-	unsafe { igText(fmt.as_ptr()) }
+	unsafe {
+		// #NOTE We do the formatting in Rust so imgui's formatting
+		//       isn't necessary and it isn't like we can use it
+		//       so I might as well make this small optimization here
+		//       and use this function which is eventually called anyway.
+		igTextUnformatted(fmt.begin(), fmt.end())
+		// igText(fmt.as_ptr())
+	}
 }
 
 pub fn text_colored<'a>(col: ImVec4, fmt: ImStr<'a>) {
